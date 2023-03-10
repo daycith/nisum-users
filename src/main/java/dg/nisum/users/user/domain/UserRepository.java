@@ -7,4 +7,6 @@ public interface UserRepository {
     Optional<User> findUserById(UserId id);
 
     Optional<User> findByEmail(UserEmail email);
+
+    void deleteAll();
 }

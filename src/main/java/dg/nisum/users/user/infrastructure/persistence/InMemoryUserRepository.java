@@ -16,6 +16,8 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public void save(User user) {
         users.put(user.getId().value(), user);
+
+        System.out.println("total users => " + users.size());
     }
 
     @Override
@@ -25,9 +27,17 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(UserEmail email) {
+
         return users.values()
                         .stream()
-                        .filter(user -> user.getEmail().equals(email))
+                        .filter(user -> {
+                            return user.getEmail().equals(email);
+                        })
                         .findFirst();
+    }
+
+    @Override
+    public void deleteAll() {
+        users = new HashMap<>();
     }
 }
