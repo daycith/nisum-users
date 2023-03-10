@@ -7,11 +7,11 @@ public class UserIsActive {
         this.value = value;
     }
 
-    public boolean isActive() {
+    public boolean value() {
         return value;
     }
 
-    static UserIsActive initialValue(){
+    static UserIsActive initialValue() {
         return new UserIsActive(false);
     }
 }

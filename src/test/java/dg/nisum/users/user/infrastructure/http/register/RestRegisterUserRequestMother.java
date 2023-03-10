@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class RestRegisterUserRequestMother {
 
-    public static RestRegisterUserRequest withEmail(String email){
+    public static RestRegisterUserRequest withEmail(String email) {
         return new RestRegisterUserRequest(
                 UserNameMother.random().value(),
                 UserEmailMother.create(email).value(),

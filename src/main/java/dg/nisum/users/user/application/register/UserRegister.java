@@ -15,7 +15,7 @@ public class UserRegister {
         this.repository = repository;
     }
 
-    public void register(RegisterUserRequest request){
+    public void register(RegisterUserRequest request) {
 
         this.guardUserEmail(request.getEmail());
 
@@ -33,16 +33,16 @@ public class UserRegister {
 
         var token = new UserToken(request.getToken());
 
-        User user = User.create(id,name,email, password, phones,token);
+        User user = User.create(id, name, email, password, phones, token);
 
         repository.save(user);
     }
 
-    private void guardUserEmail(String email){
-        Optional<User> optionalUser= repository.findByEmail(new UserEmail(email));
+    private void guardUserEmail(String email) {
+        Optional<User> optionalUser = repository.findByEmail(new UserEmail(email));
 
-        if(optionalUser.isPresent()){
-            throw  new UserEmailAlreadyExists("El correo ya registrado");
+        if (optionalUser.isPresent()) {
+            throw new UserEmailAlreadyExists("El correo ya registrado");
         }
     }
 }

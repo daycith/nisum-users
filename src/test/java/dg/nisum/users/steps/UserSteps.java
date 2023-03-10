@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dg.nisum.users.user.domain.UserRepository;
 import dg.nisum.users.user.infrastructure.http.register.RestRegisterUserRequest;
 import dg.nisum.users.user.infrastructure.http.register.RestRegisterUserRequestMother;
+import dg.nisum.users.user.infrastructure.http.register.RestRegisterUserResponse;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserSteps {
     @Autowired
@@ -24,8 +25,9 @@ public class UserSteps {
 
     @Autowired
     private UserRepository repository;
+
     @After
-    public void arrange(){
+    public void arrange() {
         repository.deleteAll();
     }
 
@@ -34,6 +36,7 @@ public class UserSteps {
         RestRegisterUserRequest request = new ObjectMapper().readValue(body, RestRegisterUserRequest.class);
         ResponseEntity<String> responseEntity = registerUser(url, request);
 
+        registerUserInformation.setRequest(request);
         registerUserInformation.setStatus(responseEntity.getStatusCodeValue());
         registerUserInformation.setResponse(responseEntity.getBody());
     }
@@ -41,6 +44,19 @@ public class UserSteps {
     @Then("The response status should be {int}")
     public void the_response_status_should_be(Integer statusCode) {
         assertEquals(statusCode, registerUserInformation.getStatus());
+    }
+
+    @Then("The response should contain the user info")
+    public void the_response_should_contain_the_user_info() throws JsonProcessingException {
+        RestRegisterUserRequest sentRequest = registerUserInformation.getRequest();
+
+        String response = registerUserInformation.getResponse();
+
+        RestRegisterUserResponse userResponse = new ObjectMapper().readValue(response, RestRegisterUserResponse.class);
+
+        assertNotNull(userResponse.getId());
+        assertEquals(sentRequest.getName(), userResponse.getName());
+        assertEquals(sentRequest.getEmail(), userResponse.getEmail());
     }
 
     @Given("There is a user with the email {string}")

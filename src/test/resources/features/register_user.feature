@@ -18,6 +18,7 @@ Feature: Register user
     }
     """
     Then The response status should be 201
+    And The response should contain the user info
 
   Scenario: Register a user with a taken email
     Given There is a user with the email "juan@rodriguez.org"

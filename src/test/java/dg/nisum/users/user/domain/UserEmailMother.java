@@ -4,11 +4,11 @@ import com.github.javafaker.Faker;
 
 public class UserEmailMother {
 
-    public static UserEmail create(String value){
+    public static UserEmail create(String value) {
         return new UserEmail(value);
     }
 
-    public static UserEmail random(){
+    public static UserEmail random() {
         return create(new Faker().internet().emailAddress("dominio.cl"));
     }
 }

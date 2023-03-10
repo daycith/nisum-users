@@ -3,11 +3,11 @@ package dg.nisum.users.user.domain;
 import com.github.javafaker.Faker;
 
 public class PhoneCityCodeMother {
-    public static PhoneCityCode create(String value){
+    public static PhoneCityCode create(String value) {
         return new PhoneCityCode(value);
     }
 
-    public static PhoneCityCode random(){
-        return  create(new Faker().phoneNumber().subscriberNumber(2));
+    public static PhoneCityCode random() {
+        return create(new Faker().phoneNumber().subscriberNumber(2));
     }
 }

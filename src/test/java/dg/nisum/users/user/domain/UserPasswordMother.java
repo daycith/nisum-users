@@ -4,11 +4,11 @@ import com.github.javafaker.Faker;
 
 public class UserPasswordMother {
 
-    public static UserPassword create(String value){
+    public static UserPassword create(String value) {
         return new UserPassword(value);
     }
 
-    public static UserPassword random(){
+    public static UserPassword random() {
         return create(new Faker().internet().password());
     }
 }

@@ -12,5 +12,15 @@ public class UserPhone {
         this.countryCode = countryCode;
     }
 
+    public PhoneNumber getNumber() {
+        return number;
+    }
 
+    public PhoneCityCode getCityCode() {
+        return cityCode;
+    }
+
+    public PhoneCountryCode getCountryCode() {
+        return countryCode;
+    }
 }
