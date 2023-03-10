@@ -1,4 +1,4 @@
-package com.example.boilerplate;
+package dg.nisum.users;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;

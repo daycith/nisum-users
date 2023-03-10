@@ -1,4 +1,4 @@
-package com.example.boilerplate;
+package dg.nisum.users;
 
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
