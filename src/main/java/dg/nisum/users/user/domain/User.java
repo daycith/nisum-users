@@ -1,25 +1,22 @@
 package dg.nisum.users.user.domain;
 
-import java.util.Date;
+import dg.nisum.users.shared.domain.AggregateRoot;
+
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+public class User extends AggregateRoot {
     private UserId id;
-
     private UserName name;
     private UserEmail email;
-
     private UserPassword password;
-
     private List<UserPhone> phones;
-
     private UserToken token;
 
+    private CreatedDate createdDate;
+    private UpdatedDate updatedDate;
     private LastLoginDate lastLoginDate;
-
     private UserIsActive isActive;
-
 
     public User(
             UserId id,
@@ -27,18 +24,37 @@ public class User {
             UserEmail email,
             UserPassword password,
             List<UserPhone> phones,
+            CreatedDate createdDate,
             UserToken token,
             LastLoginDate lastLoginDate,
-            UserIsActive isActive
+            UserIsActive isActive,
+            UpdatedDate updatedDate
     ) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phones = phones;
+        this.createdDate = createdDate;
         this.token = token;
         this.lastLoginDate = lastLoginDate;
         this.isActive = isActive;
+        this.updatedDate = updatedDate;
+    }
+
+    public void authenticate(UserToken token) {
+
+        if (this.hasNeverAuthenticated()) {
+            this.lastLoginDate = new LastLoginDate(this.createdDate.value());
+        } else {
+            this.lastLoginDate = LastLoginDate.current();
+        }
+
+        this.token = token;
+    }
+
+    private boolean hasNeverAuthenticated() {
+        return this.lastLoginDate == null;
     }
 
     public static User create(
@@ -46,20 +62,31 @@ public class User {
             UserName name,
             UserEmail email,
             UserPassword password,
-            List<UserPhone> phones,
-            UserToken token
+            List<UserPhone> phones
     ) {
-        var user = new User(
+        CreatedDate createdDate = CreatedDate.current();
+        UpdatedDate updatedDate = new UpdatedDate(createdDate.value());
+        User user = new User(
                 id,
                 name,
                 email,
                 password,
                 phones,
-                token,
-                new LastLoginDate(new Date()),
-                UserIsActive.initialValue()
-
+                createdDate,
+                null,
+                null,
+                UserIsActive.initialValue(),
+                updatedDate
         );
+
+        var userRegisteredDomainEvent = new UserRegisteredDomainEvent(
+                user.getId().value(),
+                user.getName().value(),
+                user.getEmail().value(),
+                user.getPassword().value()
+        );
+
+        user.record(userRegisteredDomainEvent);
 
         return user;
     }
@@ -109,5 +136,13 @@ public class User {
 
     public UserIsActive getIsActive() {
         return isActive;
+    }
+
+    public CreatedDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public UpdatedDate getUpdatedDate() {
+        return updatedDate;
     }
 }

@@ -9,7 +9,6 @@ public class RegisterUserRequest {
     private final String password;
 
     private final List<PhoneRequest> phones;
-    private final String token;
 
     public RegisterUserRequest(String id, String name, String email, String password, List<PhoneRequest> phones, String token) {
         this.id = id;
@@ -17,7 +16,6 @@ public class RegisterUserRequest {
         this.email = email;
         this.password = password;
         this.phones = phones;
-        this.token = token;
     }
 
     public String getId() {
@@ -39,12 +37,6 @@ public class RegisterUserRequest {
     public List<PhoneRequest> getPhones() {
         return phones;
     }
-
-    public String getToken() {
-        return token;
-    }
-
-
 }
 
 

@@ -1,7 +1,9 @@
 package dg.nisum.users.user.application.register;
 
+import dg.nisum.users.shared.domain.EventBus;
+import dg.nisum.users.shared.domain.PasswordEncrypter;
+import dg.nisum.users.shared.domain.Service;
 import dg.nisum.users.user.domain.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +12,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserRegister {
     private final UserRepository repository;
+    private final PasswordEncrypter passwordEncrypter;
+    private final EventBus eventBus;
 
-    public UserRegister(UserRepository repository) {
+    public UserRegister(UserRepository repository, PasswordEncrypter passwordEncrypter, EventBus eventBus) {
         this.repository = repository;
+        this.passwordEncrypter = passwordEncrypter;
+        this.eventBus = eventBus;
     }
 
     public void register(RegisterUserRequest request) {
@@ -31,11 +37,11 @@ public class UserRegister {
                     new PhoneCountryCode(phone.getCountryCode()));
         }).collect(Collectors.toList());
 
-        var token = new UserToken(request.getToken());
-
-        User user = User.create(id, name, email, password, phones, token);
+        User user = User.create(id, name, email, password, phones);
 
         repository.save(user);
+
+        eventBus.publish(user.pullDomainEvents());
     }
 
     private void guardUserEmail(String email) {

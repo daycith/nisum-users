@@ -1,10 +1,11 @@
 package dg.nisum.users.user.infrastructure.persistence;
 
+import dg.nisum.users.shared.domain.Service;
 import dg.nisum.users.user.domain.User;
 import dg.nisum.users.user.domain.UserEmail;
 import dg.nisum.users.user.domain.UserId;
 import dg.nisum.users.user.domain.UserRepository;
-import org.springframework.stereotype.Service;
+
 
 import java.util.HashMap;
 import java.util.Optional;

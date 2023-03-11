@@ -15,9 +15,11 @@ public class UserMother {
             UserEmail email,
             UserPassword password,
             List<UserPhone> phones,
+            CreatedDate createdDate,
             UserToken token,
             LastLoginDate lastLoginDate,
-            UserIsActive isActive
+            UserIsActive isActive,
+            UpdatedDate updatedDate
     ){
         return new User(
                 id,
@@ -25,9 +27,11 @@ public class UserMother {
                 email,
                 password,
                 phones,
+                createdDate,
                 token,
                 lastLoginDate,
-                isActive
+                isActive,
+                updatedDate
         );
     }
 
@@ -42,6 +46,8 @@ public class UserMother {
                 name,
                 email,
                 password,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -62,17 +68,17 @@ public class UserMother {
                     new PhoneCountryCode(phone.getCountryCode()));
         }).collect(Collectors.toList());
 
-        var token = new UserToken(request.getToken());
-
         return create(
                 id,
                 name,
                 email,
                 password,
                 phones,
-                token,
+                null,
+                null,
                 new LastLoginDate(new Date()),
-                new UserIsActive(false)
+                new UserIsActive(false),
+                null
         );
     }
 
@@ -83,9 +89,11 @@ public class UserMother {
                 UserEmailMother.random(),
                 UserPasswordMother.random(),
                 Collections.singletonList(UserPhoneMother.random()),
+                CreatedDateMother.random(),
                 UserTokenMother.random(),
                 LastLoginDateMother.random(),
-                UserIsActiveMother.random()
+                UserIsActiveMother.random(),
+                UpdatedDateMother.random()
                 );
     }
 }

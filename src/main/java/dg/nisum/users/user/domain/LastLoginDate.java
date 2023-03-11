@@ -8,4 +8,12 @@ public class LastLoginDate extends DateValueObject {
     public LastLoginDate(Date value) {
         super(value);
     }
+
+    public boolean isEmpty(){
+        return this.value() == null;
+    }
+
+    public static LastLoginDate current(){
+        return new LastLoginDate(new Date());
+    }
 }

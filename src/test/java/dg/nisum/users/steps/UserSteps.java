@@ -57,6 +57,10 @@ public class UserSteps {
         assertNotNull(userResponse.getId());
         assertEquals(sentRequest.getName(), userResponse.getName());
         assertEquals(sentRequest.getEmail(), userResponse.getEmail());
+        assertNotNull(userResponse.getToken());
+        assertNotNull(userResponse.getCreated());
+        assertNotNull(userResponse.getModified());
+        assertEquals(userResponse.getCreated(),userResponse.getLastLogin());
     }
 
     @Given("There is a user with the email {string}")

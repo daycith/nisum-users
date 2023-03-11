@@ -1,9 +1,14 @@
 package dg.nisum.users.user.application.register;
 
+import dg.nisum.users.shared.domain.EventBus;
+import dg.nisum.users.shared.domain.PasswordEncrypter;
+import dg.nisum.users.shared.infrastructure.security.JwtPasswordEncrypter;
 import dg.nisum.users.user.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,22 +21,16 @@ class UserRegisterTest {
 
     private UserRegister userRegister;
 
+    private PasswordEncrypter passwordEncrypter;
+
+    private EventBus eventBus;
+
     @BeforeEach
     void setUp() {
         repository = mock(UserRepository.class);
-
-        userRegister = new UserRegister(repository);
-    }
-
-    @Test
-    void register_a_valid_user() {
-
-        RegisterUserRequest request = RegisterUserRequestMother.random();
-        User expectedUser = UserMother.fromRequest(request);
-
-        userRegister.register(request);
-
-        verify(repository, times(1)).save(expectedUser);
+        passwordEncrypter = new JwtPasswordEncrypter();
+        eventBus = mock(EventBus.class);
+        userRegister = new UserRegister(repository, passwordEncrypter, eventBus);
     }
 
     @Test
@@ -51,4 +50,19 @@ class UserRegisterTest {
 
         assertEquals("El correo ya registrado", exception.getMessage());
     }
+
+    @Test
+    void register_a_valid_user() {
+
+        RegisterUserRequest request = RegisterUserRequestMother.random();
+        User expectedUser = UserMother.fromRequest(request);
+        UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUser(expectedUser);
+
+        userRegister.register(request);
+
+        verify(repository, times(1)).save(expectedUser);
+        verify(eventBus).publish(List.of(expectedEvent));
+    }
+
+
 }

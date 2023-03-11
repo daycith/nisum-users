@@ -1,7 +1,5 @@
 package dg.nisum.users.user.domain;
 
-import com.github.javafaker.Faker;
-
 import java.util.Date;
 
 public class LastLoginDateMother {
