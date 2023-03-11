@@ -13,8 +13,7 @@ public class RegisterUserRequestMother {
                 "juan@rodriguez.com",
                 "aaa",
                 Collections.singletonList(
-                        new PhoneRequest("1234567", "1", "57")),
-                "abcdfgf"
+                        new PhoneRequest("1234567", "1", "57"))
         );
     }
 }

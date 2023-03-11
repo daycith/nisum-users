@@ -25,7 +25,6 @@ public class RegisterUserPostController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestRegisterUserResponse register(@RequestBody RestRegisterUserRequest body) {
         String id = UUID.randomUUID().toString();
-        String token = "2121212";
         RegisterUserRequest request = new RegisterUserRequest(
                 id,
                 body.getName(),
@@ -37,8 +36,7 @@ public class RegisterUserPostController {
                             phoneRequest.getCityCode(),
                             phoneRequest.getCountryCode()
                     );
-                }).collect(Collectors.toList()),
-                token
+                }).collect(Collectors.toList())
         );
 
         register.register(request);

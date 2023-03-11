@@ -52,6 +52,24 @@ class UserRegisterTest {
     }
 
     @Test
+    void register_a_user_with_a_non_corporate_email() {
+
+        RegisterUserRequest request = RegisterUserRequestMother.random();
+        String email = request.getEmail();
+        User currentUser = UserMother.withEmail(email);
+
+        when(repository.findByEmail(UserEmailMother.create(email))).thenReturn(Optional.of(currentUser));
+
+        UserEmailAlreadyExists exception = assertThrows(
+                UserEmailAlreadyExists.class,
+                () -> userRegister.register(request
+                )
+        );
+
+        assertEquals("El correo ya registrado", exception.getMessage());
+    }
+
+    @Test
     void register_a_valid_user() {
 
         RegisterUserRequest request = RegisterUserRequestMother.random();

@@ -10,7 +10,7 @@ public class RegisterUserRequest {
 
     private final List<PhoneRequest> phones;
 
-    public RegisterUserRequest(String id, String name, String email, String password, List<PhoneRequest> phones, String token) {
+    public RegisterUserRequest(String id, String name, String email, String password, List<PhoneRequest> phones) {
         this.id = id;
         this.name = name;
         this.email = email;
