@@ -1,6 +1,7 @@
 package dg.nisum.users.shared.infrastructure.http;
 
 import dg.nisum.users.shared.domain.DomainError;
+import dg.nisum.users.shared.domain.ForbiddenError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,11 @@ public class RestErrorHandler {
     @ExceptionHandler(value = {DomainError.class})
     public ResponseEntity<ErrorResponse> handleDomainError(DomainError ex, WebRequest request) {
         return sendErrorResponse(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(value = {ForbiddenError.class})
+    public ResponseEntity<ErrorResponse> handleDomainError(ForbiddenError ex, WebRequest request) {
+        return sendErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     protected ResponseEntity<ErrorResponse> sendErrorResponse(String error, HttpStatus status) {

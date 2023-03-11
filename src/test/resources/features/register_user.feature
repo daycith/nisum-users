@@ -6,7 +6,7 @@ Feature: Register user
     """
     {
       "name": "Juan Rodriguez",
-      "email": "juan@rodriguez.org",
+      "email": "juan@dominio.cl",
       "password": "hunter2",
       "phones": [
           {
@@ -21,12 +21,12 @@ Feature: Register user
     And The response should contain the user info
 
   Scenario: Register a user with a taken email
-    Given There is a user with the email "juan@rodriguez.org"
+    Given There is a user with the email "juan@dominio.cl"
     When I send a POST request to "/register" with body:
     """
     {
       "name": "Juan Rodriguez",
-      "email": "juan@rodriguez.org",
+      "email": "juan@dominio.cl",
       "password": "hunter2",
       "phones": [
           {

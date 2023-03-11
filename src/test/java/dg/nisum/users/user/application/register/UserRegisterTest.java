@@ -52,21 +52,17 @@ class UserRegisterTest {
     }
 
     @Test
-    void register_a_user_with_a_non_corporate_email() {
+    void register_a_user_with_an_external_email() {
 
-        RegisterUserRequest request = RegisterUserRequestMother.random();
-        String email = request.getEmail();
-        User currentUser = UserMother.withEmail(email);
+        RegisterUserRequest request = RegisterUserRequestMother.withExternalEmail();
 
-        when(repository.findByEmail(UserEmailMother.create(email))).thenReturn(Optional.of(currentUser));
-
-        UserEmailAlreadyExists exception = assertThrows(
-                UserEmailAlreadyExists.class,
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
                 () -> userRegister.register(request
                 )
         );
 
-        assertEquals("El correo ya registrado", exception.getMessage());
+        assertEquals("invalid email", exception.getMessage());
     }
 
     @Test
@@ -77,7 +73,7 @@ class UserRegisterTest {
         UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUser(expectedUser);
 
         userRegister.register(request);
-
+        System.out.println(request.getEmail());
         verify(repository, times(1)).save(expectedUser);
         verify(eventBus).publish(List.of(expectedEvent));
     }

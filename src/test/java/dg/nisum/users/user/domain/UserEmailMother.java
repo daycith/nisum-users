@@ -8,7 +8,11 @@ public class UserEmailMother {
         return new UserEmail(value);
     }
 
-    public static UserEmail random() {
-        return create(new Faker().internet().emailAddress("dominio.cl"));
+    public static UserEmail validRandom() {
+        return create(new Faker().name().username()+"@dominio.cl");
+    }
+
+    public static String externalEmail(){
+        return new Faker().internet().emailAddress();
     }
 }

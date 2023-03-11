@@ -86,7 +86,7 @@ public class UserMother {
         return create(
                 UserIdMother.random(),
                 UserNameMother.random(),
-                UserEmailMother.random(),
+                UserEmailMother.validRandom(),
                 UserPasswordMother.random(),
                 Collections.singletonList(UserPhoneMother.random()),
                 CreatedDateMother.random(),
