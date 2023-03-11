@@ -11,4 +11,8 @@ public class UserPasswordMother {
     public static UserPassword random() {
         return create(new Faker().internet().password());
     }
+
+    public static UserPassword encrypted() {
+        return random();
+    }
 }

@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UserAuthenticatorTest {
 
@@ -70,6 +69,8 @@ class UserAuthenticatorTest {
         authenticator.authenticate(email.value(),password.value());
 
        assertUserIsAuthenticated(user,expectedToken);
+
+       verify(repository).save(user);
     }
 
     private void assertUserIsAuthenticated(User user, String token){

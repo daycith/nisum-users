@@ -2,12 +2,11 @@ package dg.nisum.users.user.application.register;
 
 import dg.nisum.users.shared.domain.EventBus;
 import dg.nisum.users.shared.domain.PasswordEncrypter;
-import dg.nisum.users.shared.infrastructure.security.JwtPasswordEncrypter;
 import dg.nisum.users.user.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ class UserRegisterTest {
     @BeforeEach
     void setUp() {
         repository = mock(UserRepository.class);
-        passwordEncrypter = new JwtPasswordEncrypter();
+        passwordEncrypter = mock(PasswordEncrypter.class);
         eventBus = mock(EventBus.class);
         userRegister = new UserRegister(repository, passwordEncrypter, eventBus);
     }
@@ -69,14 +68,35 @@ class UserRegisterTest {
     void register_a_valid_user() {
 
         RegisterUserRequest request = RegisterUserRequestMother.random();
-        User expectedUser = UserMother.fromRequest(request);
+        String encryptedPassword = UserPasswordMother.random().value();
+        when(passwordEncrypter.encrypt(request.getPassword()))
+                .thenReturn(encryptedPassword);
+        User expectedUser = UserMother.fromRequestAndEncryptedPassword(request,encryptedPassword);
         UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUser(expectedUser);
 
         userRegister.register(request);
-        System.out.println(request.getEmail());
+
         verify(repository, times(1)).save(expectedUser);
         verify(eventBus).publish(List.of(expectedEvent));
     }
 
+    @Test
+    void should_encrypt_the_password() {
+
+        RegisterUserRequest request = RegisterUserRequestMother.random();
+        String encryptedPassword = UserPasswordMother.random().value();
+        when(passwordEncrypter.encrypt(request.getPassword())).thenReturn(encryptedPassword);
+
+        userRegister.register(request);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
+        verify(repository,times(1)).save(userCaptor.capture());
+
+        User savedUser = userCaptor.getValue();
+
+        assertEquals(encryptedPassword, savedUser.getPassword().value());
+
+    }
 
 }

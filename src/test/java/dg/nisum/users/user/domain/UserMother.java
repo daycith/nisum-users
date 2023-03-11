@@ -55,11 +55,11 @@ public class UserMother {
         );
     }
 
-    public static User fromRequest(RegisterUserRequest request) {
+    public static User fromRequestAndEncryptedPassword(RegisterUserRequest request, String encryptedPassword) {
         var id = new UserId(request.getId());
         var name = new UserName(request.getName());
         var email = new UserEmail(request.getEmail());
-        var password = new UserPassword(request.getPassword());
+        var password = new UserPassword(encryptedPassword);
 
         var phones = request.getPhones().stream().map(phone -> {
             return new UserPhone(

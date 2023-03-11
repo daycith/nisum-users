@@ -28,7 +28,7 @@ public class UserRegister {
         UserId id = new UserId(request.getId());
         UserName name = new UserName(request.getName());
         UserEmail email = new UserEmail(request.getEmail());
-        UserPassword password = new UserPassword(request.getPassword());
+        UserPassword password = new UserPassword(passwordEncrypter.encrypt(request.getPassword()));
 
         List<UserPhone> phones = request.getPhones().stream().map(phone -> {
             return new UserPhone(
