@@ -2,10 +2,15 @@
 spring:
   datasource:
     url: jdbc:h2:mem:nisum_users
-    username: daycith
-    password: daycith
+    username: sa
+    password: 12345
     driverClassName: org.h2.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
   h2:
     console.enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true

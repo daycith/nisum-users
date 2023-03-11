@@ -13,6 +13,11 @@ Feature: Register user
               "number": "1234567",
               "citycode": "1",
               "contrycode": "57"
+          },
+          {
+              "number": "1234568",
+              "citycode": "1",
+              "contrycode": "57"
           }
       ]
     }

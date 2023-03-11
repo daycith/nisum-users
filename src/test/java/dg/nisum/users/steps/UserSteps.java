@@ -57,6 +57,18 @@ public class UserSteps {
         assertNotNull(userResponse.getId());
         assertEquals(sentRequest.getName(), userResponse.getName());
         assertEquals(sentRequest.getEmail(), userResponse.getEmail());
+
+        assertNotNull(sentRequest.getPhones());
+        assertEquals(sentRequest.getPhones().size(), userResponse.getPhones().size());
+        for(int x = 0; x < sentRequest.getPhones().size(); x++){
+            var sentPhone = sentRequest.getPhones().get(x);
+            var responsePhone = userResponse.getPhones().get(x);
+
+            assertEquals(sentPhone.getNumber(),responsePhone.getNumber());
+            assertEquals(sentPhone.getCityCode(),responsePhone.getCityCode());
+            assertEquals(sentPhone.getCountryCode(),responsePhone.getCountryCode());
+        }
+
         assertNotNull(userResponse.getToken());
         assertNotNull(userResponse.getCreated());
         assertNotNull(userResponse.getModified());
