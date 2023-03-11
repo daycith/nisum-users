@@ -14,7 +14,6 @@ public class AuthenticateUserOnUserRegistered {
 
     @EventListener
     public void on(UserRegisteredDomainEvent event){
-        System.out.println("BIEEEEEEEEE");
         authenticator.authenticate(event.getEmail(),event.getPassword());
     }
 }

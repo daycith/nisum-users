@@ -6,7 +6,6 @@ import dg.nisum.users.user.domain.UserEmail;
 import dg.nisum.users.user.domain.UserId;
 import dg.nisum.users.user.domain.UserRepository;
 
-
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -39,4 +38,5 @@ public class InMemoryUserRepository implements UserRepository {
     public void deleteAll() {
         users = new HashMap<>();
     }
+
 }

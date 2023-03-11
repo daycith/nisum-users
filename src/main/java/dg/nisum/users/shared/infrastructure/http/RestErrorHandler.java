@@ -19,6 +19,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(value = {DomainError.class})
     public ResponseEntity<ErrorResponse> handleDomainError(DomainError ex, WebRequest request) {
+        ex.getStackTrace();
         return sendErrorResponse(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -28,6 +29,7 @@ public class RestErrorHandler {
     }
 
     protected ResponseEntity<ErrorResponse> sendErrorResponse(String error, HttpStatus status) {
+
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(new ErrorResponse(error), httpHeaders, status);
