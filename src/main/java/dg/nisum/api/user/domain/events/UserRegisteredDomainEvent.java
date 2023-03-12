@@ -1,6 +1,6 @@
-package dg.nisum.api.user.domain;
+package dg.nisum.api.user.domain.events;
 
-import dg.nisum.api.shared.domain.DomainEvent;
+import dg.nisum.api.shared.domain.events.DomainEvent;
 
 import java.util.Objects;
 

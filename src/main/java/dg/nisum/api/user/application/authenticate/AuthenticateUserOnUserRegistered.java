@@ -1,7 +1,7 @@
 package dg.nisum.api.user.application.authenticate;
 
 import dg.nisum.api.shared.domain.Service;
-import dg.nisum.api.user.domain.UserRegisteredDomainEvent;
+import dg.nisum.api.user.domain.events.UserRegisteredDomainEvent;
 import org.springframework.context.event.EventListener;
 
 @Service

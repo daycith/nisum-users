@@ -1,6 +1,7 @@
 package dg.nisum.api.user.domain;
 
 import dg.nisum.api.shared.domain.AggregateRoot;
+import dg.nisum.api.user.domain.events.UserRegisteredDomainEvent;
 
 import java.util.List;
 import java.util.Objects;

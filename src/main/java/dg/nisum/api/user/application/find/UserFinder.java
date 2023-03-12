@@ -3,7 +3,7 @@ package dg.nisum.api.user.application.find;
 import dg.nisum.api.shared.domain.Service;
 import dg.nisum.api.user.domain.User;
 import dg.nisum.api.user.domain.UserId;
-import dg.nisum.api.user.domain.UserNotFoundError;
+import dg.nisum.api.user.domain.errors.UserNotFoundError;
 import dg.nisum.api.user.domain.UserRepository;
 
 

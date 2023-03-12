@@ -1,4 +1,6 @@
-package dg.nisum.api.shared.domain;
+package dg.nisum.api.shared.domain.events;
+
+import dg.nisum.api.shared.domain.events.DomainEvent;
 
 import java.util.List;
 

@@ -1,5 +1,7 @@
 package dg.nisum.api.user.domain;
 
+import dg.nisum.api.user.domain.events.UserRegisteredDomainEvent;
+
 public class UserRegisteredDomainEventMother {
     public static UserRegisteredDomainEvent create(
             String id,

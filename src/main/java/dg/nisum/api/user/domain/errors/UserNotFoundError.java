@@ -1,4 +1,4 @@
-package dg.nisum.api.user.domain;
+package dg.nisum.api.user.domain.errors;
 
 import dg.nisum.api.shared.domain.DomainError;
 

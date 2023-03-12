@@ -63,6 +63,9 @@ El archivo se encuentra en la ruta src/main/resources/data.sql.
 La creación de las tablas ya se realiza automáticamente , por lo que no es necesario ejecutarlo.
 
 
+## Diagrama de la solución.
 
+Se implementó 
 
+![packages](https://drive.google.com/file/d/1q0zQPH4wMPeobnwJoO57x7M79wyHrL3Q/view)
 

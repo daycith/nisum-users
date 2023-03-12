@@ -1,6 +1,7 @@
 package dg.nisum.api.user.application.find;
 
 import dg.nisum.api.user.domain.*;
+import dg.nisum.api.user.domain.errors.UserNotFoundError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
