@@ -80,12 +80,12 @@ cuenta esto, se dividió el requerimiento de registrar un usuario en los siguien
 
 - User Finder: Simplemente devuelve toda la información que retorna el endpoint de registro de usuario.
 
-![packages](https://drive.google.com/uc?export=view&id=1b0Z9g4M0TTMolTvVnA9D0g-xSUFnYPLB)
+![packages](https://drive.google.com/uc?export=view&id=1E20AEB1PWja7_Pg409lIp6gWYTHF1fL6)
 
 Como se evidencia en la imagen, es en el controlador donde se lanza la acción de registrar el usuario y se espera que el
 proceso termine para volver a consultar los datos del usuario. De este modo se puede retornar la información en la misma
 petición http.
 
-A continuación el diagrama de paquetes, basado en la solución planteada:
+A continuación el diagrama de paquetes, que evidencia la solución planteada en el código de la aplicación:
 
 ![packages](https://drive.google.com/uc?export=view&id=1q0zQPH4wMPeobnwJoO57x7M79wyHrL3Q)
