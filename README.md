@@ -65,7 +65,6 @@ La creación de las tablas ya se realiza automáticamente , por lo que no es nec
 
 ## Diagrama de la solución.
 
-Se implementó 
+Se implementó una arquitectura siguiendo los principios de Arquitectura Hexagonal y DDD. A continuación el diagrama de paquetes.
 
-![packages](https://drive.google.com/file/d/1q0zQPH4wMPeobnwJoO57x7M79wyHrL3Q/view)
-
+![packages](https://drive.google.com/uc?export=view&id=1q0zQPH4wMPeobnwJoO57x7M79wyHrL3Q)
