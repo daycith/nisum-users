@@ -24,23 +24,15 @@ La aplicación se puede ejecutar mediante una de las siguientes opciones:
 
 ```sh
  ./gradlew bootjar
-```
-
-```sh
  docker build -t nisum_users .
-```
-
-```sh
  docker run -d -p 8080:8080 nisum_users
 ```
 
 2. Luego de ejcutada la aplicación, ingresar a la url:
 
-```sh
-http://localhost:8080/swagger-ui
-```
+`http://localhost:8080/swagger-ui`
 
-Esto le permitirá realizar las pruebas desde la misma documentación de la API, o ver los endpoints que puede llamar
+Esto le permitirá realizar las pruebas desde la misma documentación de la API, o ver el endpoint que puede llamar
 desde su cliente preferido.
 
 ## Pruebas automáticas
@@ -83,9 +75,19 @@ cuenta esto, se dividió el requerimiento de registrar un usuario en los siguien
 ![packages](https://drive.google.com/uc?export=view&id=1E20AEB1PWja7_Pg409lIp6gWYTHF1fL6)
 
 Como se evidencia en la imagen, es en el controlador donde se lanza la acción de registrar el usuario y se espera que el
-proceso termine para volver a consultar los datos del usuario. De este modo se puede retornar la información en la misma
-petición http.
+proceso termine para volver a consultar los datos del usuario.
+
+De este modo se puede retornar la información en la misma petición http, se aplica el principio de responsabillidad
+única, y por ende se facilitan las pruebas.
 
 A continuación el diagrama de paquetes, que evidencia la solución planteada en el código de la aplicación:
 
 ![packages](https://drive.google.com/uc?export=view&id=1q0zQPH4wMPeobnwJoO57x7M79wyHrL3Q)
+
+A partir de este punto se podrían implementar muchas más mejoras al sistema, entre ellas la implementación de CQRS y
+la comunicación de la aplicación Back y front mediante un sistema de eventos que no implique esperar a que se complete
+todo el proceso y retornar la respuesta en la misma petición. 
+
+En caso de tener que retornar una respuesta en la misma petición (como está ahora), también se puede implementar un
+mecanismo reactivo y tolerante a los fallos que se se puedan presentar en uno de los 3 servicios de aplicación
+descritos anteriormente.
