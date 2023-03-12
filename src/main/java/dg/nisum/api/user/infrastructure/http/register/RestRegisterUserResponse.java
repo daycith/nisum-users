@@ -27,6 +27,7 @@ public class RestRegisterUserResponse {
     @JsonProperty("last_login")
     private Date lastLogin;
 
+    @Schema(example = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZjNlZjI5Ni02MGE2LTQ5MDgtYTY2ZC1jYTkxMjcwNTA1MWYiLCJleHAiOjE2Nzg2MzYyMTV9.iGmMc9la6PTrTQTUPTTvCnLvV2i1vD15B0mEt74JFeDx17rELHst5-sD6YiKtyeIeTjpm_6CYCLpnWM66MebvQ")
     private String token;
     @JsonProperty("isactive")
     private boolean isActive;
