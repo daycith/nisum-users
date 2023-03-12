@@ -22,21 +22,32 @@ La aplicación se puede ejecutar mediante una de las siguientes opciones:
 
 - Ejecución en la máquina host:
 
+Copiar las variables de entorno del archivo .env a su entorno. Esto con el objetivo de establecer la configuración necesaria para generar JWT y válidar la clave lada de teléfono.
+
+```sh
+export $(cat .env | xargs)
+```
+
+Luego ejecutar la aplicación
 
 ```sh
 ./gradlew bootRun
 ```
 
 
-- Usando docker:
+- Usando docker compose:
 
+En este caso las variables de entorno están en el archivo docker-compose, por lo que no es necesario copiar las del archivo .env.
 
 ```sh
 ./gradlew bootjar
-docker build -t nisum_users .
-docker run -d -p 8080:8080 nisum_users
+docker-compose up -d
 ```
+Para detener el contenedor, simplemente ejecutar
 
+```sh
+docker-compose down
+```
 
 2. Luego de ejecutada la aplicación, ingresar a la url:
 
@@ -53,17 +64,13 @@ desde su cliente preferido.
 
 Se implementaron pruebas unitarias, de integración, y aceptación.
 
-
-Comando para ejecutar todas las pruebas:
-
+Para ejecutar todas las pruebas, primero asegurese de copiar las variables de entorno ejecutando `export $(cat .env | xargs)`
 
 ```sh
 ./gradlew test
 ```
 
-
 ## Script de Base de datos
-
 
 ```roomsql
 drop table if exists phones cascade;

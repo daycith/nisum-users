@@ -15,8 +15,3 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     disable-swagger-default-url: true
-
-users:
-  ladakey_pattern: ${LADA_KEY_PATTERN:^[0-9]{2}$}
-  JWT_KEY: ${LADA_KEY_PATTERN:AvTPEJRwCxnqApQGkuWsl-iUafNAHQAwTIJM8hdV4Oo}
-  EXPIRATION_TIME: ${LADA_KEY_PATTERN:64000}

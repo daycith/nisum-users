@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component()
 public class PropertiesLadaKeyConfiguration implements LadaKeyPatternConfiguration {
-    @Value("${users.ladakey_pattern}")
+    @Value("#{environment.LADA_KEY_PATTERN}")
     private String ladaKeyPattern;
 
     @Override

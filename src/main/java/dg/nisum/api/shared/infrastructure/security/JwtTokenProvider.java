@@ -12,9 +12,9 @@ import java.util.Date;
 @Service
 public class JwtTokenProvider implements TokenProvider {
 
-    @Value("${users.JWT_KEY}")
+    @Value("#{environment.JWT_KEY}")
     private String jwtSecret;
-    @Value("${users.EXPIRATION_TIME}")
+    @Value("#{environment.EXPIRATION_TIME}")
     private int jwtExpirationMs;
 
     @Override
