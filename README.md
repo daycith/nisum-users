@@ -44,7 +44,7 @@ Esto le permitirá realizar las pruebas desde la misma documentación de la API,
 
 Se implementaron pruebas unitarias, de integración y aceptación.
 
-Para ejecutar todas las pruebas 
+Comando para ejecutar todas las pruebas:
 ```sh
 ./gradlew test
 ```
@@ -61,6 +61,7 @@ create table users (id varchar(255) not null, created timestamp(6), email varcha
 El archivo se encuentra en la ruta src/main/resources/data.sql.
 
 La creación de las tablas ya se realiza automáticamente , por lo que no es necesario ejecutarlo.
+
 
 
 
