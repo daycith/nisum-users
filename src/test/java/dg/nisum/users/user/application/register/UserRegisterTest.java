@@ -22,14 +22,18 @@ class UserRegisterTest {
 
     private PasswordEncrypter passwordEncrypter;
 
+    private LadaKeyPatternConfiguration ladaKeyPatternConfiguration;
+
     private EventBus eventBus;
 
     @BeforeEach
     void setUp() {
         repository = mock(UserRepository.class);
         passwordEncrypter = mock(PasswordEncrypter.class);
+        ladaKeyPatternConfiguration = mock(LadaKeyPatternConfiguration.class);
         eventBus = mock(EventBus.class);
-        userRegister = new UserRegister(repository, passwordEncrypter, eventBus);
+        userRegister = new UserRegister(repository, passwordEncrypter, ladaKeyPatternConfiguration,eventBus);
+
     }
 
     @Test
@@ -65,12 +69,34 @@ class UserRegisterTest {
     }
 
     @Test
+    void register_a_user_with_an_invalid_lada_key() {
+
+        String countryCode = "500";
+        String pattern = "^[0-9]{2}$";
+
+        RegisterUserRequest request = RegisterUserRequestMother.withCountryCode(countryCode);
+
+        when(ladaKeyPatternConfiguration.pattern()).thenReturn(pattern);
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> userRegister.register(request
+                )
+        );
+
+        assertEquals("invalid lada key", exception.getMessage());
+    }
+
+    @Test
     void register_a_valid_user() {
 
-        RegisterUserRequest request = RegisterUserRequestMother.random();
+        String validKey = "57";
+        String pattern = "^[0-9]{2}$";
+
+        RegisterUserRequest request = RegisterUserRequestMother.withCountryCode(validKey);
         String encryptedPassword = UserPasswordMother.random().value();
         when(passwordEncrypter.encrypt(request.getPassword()))
                 .thenReturn(encryptedPassword);
+        when(ladaKeyPatternConfiguration.pattern()).thenReturn(pattern);
         User expectedUser = UserMother.fromRequestAndEncryptedPassword(request,encryptedPassword);
         UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUser(expectedUser);
 
@@ -83,9 +109,13 @@ class UserRegisterTest {
     @Test
     void should_encrypt_the_password() {
 
-        RegisterUserRequest request = RegisterUserRequestMother.random();
+        String validKey = "57";
+        String pattern = "^[0-9]{2}$";
+
+        RegisterUserRequest request = RegisterUserRequestMother.withCountryCode(validKey);
         String encryptedPassword = UserPasswordMother.random().value();
         when(passwordEncrypter.encrypt(request.getPassword())).thenReturn(encryptedPassword);
+        when(ladaKeyPatternConfiguration.pattern()).thenReturn(pattern);
 
         userRegister.register(request);
 

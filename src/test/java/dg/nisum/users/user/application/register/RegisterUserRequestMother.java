@@ -31,4 +31,15 @@ public class RegisterUserRequestMother {
                         new PhoneRequest("1234567", "1", "57"))
         );
     }
+
+    public static RegisterUserRequest withCountryCode(String countryCode) {
+        return new RegisterUserRequest(
+                UUID.randomUUID().toString(),
+                UserNameMother.random().value(),
+                UserEmailMother.validRandom().value(),
+                UserPasswordMother.random().value(),
+                Collections.singletonList(
+                        new PhoneRequest("1234567", "1", countryCode))
+        );
+    }
 }
