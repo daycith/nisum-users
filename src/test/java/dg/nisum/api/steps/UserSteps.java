@@ -17,12 +17,13 @@ import org.springframework.http.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserSteps {
+
+    private static final String URL_ENDPOINT = "/register";
+
     @Autowired
     private TestRestTemplate restTemplate;
-
     @Autowired
     private RegisterUserInformation registerUserInformation;
-
     @Autowired
     private UserRepository repository;
 
@@ -31,10 +32,10 @@ public class UserSteps {
         repository.deleteAll();
     }
 
-    @When("I send a POST request to {string} with body:")
-    public void i_send_a_post_request_to_with_body(String url, String body) throws JsonProcessingException {
+    @When("I send a POST request to register endpoint with body:")
+    public void i_send_a_post_request_to_with_body( String body) throws JsonProcessingException {
         RestRegisterUserRequest request = new ObjectMapper().readValue(body, RestRegisterUserRequest.class);
-        ResponseEntity<String> responseEntity = registerUser(url, request);
+        ResponseEntity<String> responseEntity = registerUser(request);
 
         registerUserInformation.setRequest(request);
         registerUserInformation.setStatus(responseEntity.getStatusCodeValue());
@@ -79,7 +80,7 @@ public class UserSteps {
     public void there_is_a_user_with_the_email(String email) {
         RestRegisterUserRequest request = RestRegisterUserRequestMother.withEmail(email);
 
-        registerUser("/register", request);
+        registerUser(request);
     }
 
     @Then("The response should be {string}")
@@ -87,7 +88,7 @@ public class UserSteps {
         assertEquals(message, registerUserInformation.getResponse());
     }
 
-    protected ResponseEntity<String> registerUser(String url, RestRegisterUserRequest body) {
+    protected ResponseEntity<String> registerUser(RestRegisterUserRequest body) {
 
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -96,7 +97,7 @@ public class UserSteps {
                 new HttpEntity<RestRegisterUserRequest>(body, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.
-                postForEntity(url, request, String.class);
+                postForEntity(URL_ENDPOINT, request, String.class);
 
         return responseEntity;
     }

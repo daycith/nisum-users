@@ -1,8 +1,8 @@
 package dg.nisum.api.user.domain;
 
-import dg.nisum.api.shared.domain.StringValueObject;
+import dg.nisum.api.shared.domain.RequiredStringValueObject;
 
-public class UserEmail extends StringValueObject {
+public class UserEmail extends RequiredStringValueObject {
 
     private static final String REGULAR_EXPRESSION =  "^\\w+([-+.']\\w+)*@?(dominio.cl)$";
 
@@ -16,5 +16,9 @@ public class UserEmail extends StringValueObject {
         if(!value.matches(REGULAR_EXPRESSION)){
             throw new IllegalArgumentException("invalid email");
         }
+    }
+
+    protected String requiredMessage(){
+        return "required email";
     }
 }

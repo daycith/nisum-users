@@ -70,6 +70,12 @@ Para ejecutar todas las pruebas, primero asegurese de copiar las variables de en
 ./gradlew test
 ```
 
+para ejecutar sólo las pruebas de aceptación:
+
+```sh
+./gradlew cucumber
+```
+
 ## Script de Base de datos
 
 ```roomsql

@@ -2,7 +2,6 @@ package dg.nisum.api.user.infrastructure.http.register;
 
 import dg.nisum.api.user.application.find.UserDto;
 import dg.nisum.api.user.application.find.UserFinder;
-import dg.nisum.api.user.application.register.PhoneRequest;
 import dg.nisum.api.user.application.register.RegisterUserRequest;
 import dg.nisum.api.user.application.register.UserRegister;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.POST})
@@ -39,40 +37,12 @@ public class RegisterUserPostController {
     })
     public RestRegisterUserResponse register(@RequestBody RestRegisterUserRequest body) {
         String id = UUID.randomUUID().toString();
-        RegisterUserRequest request = new RegisterUserRequest(
-                id,
-                body.getName(),
-                body.getEmail(),
-                body.getPassword(),
-                body.getPhones().stream().map(phoneRequest -> {
-                    return new PhoneRequest(
-                            phoneRequest.getNumber(),
-                            phoneRequest.getCityCode(),
-                            phoneRequest.getCountryCode()
-                    );
-                }).collect(Collectors.toList())
-        );
+        RegisterUserRequest request = RegisterUserRequestMapper.fromRestRequest(id,body);
 
         register.register(request);
 
         UserDto userDto = userFinder.find(id);
 
-        return new RestRegisterUserResponse(
-                userDto.getId(),
-                userDto.getName(),
-                userDto.getEmail(),
-                userDto.getPhones().stream().map(phone -> {
-                    return new RestPhone(
-                            phone.getNumber(),
-                            phone.getCityCode(),
-                            phone.getCountryCode()
-                    );
-                }).collect(Collectors.toList()),
-                userDto.getCreated(),
-                userDto.getModified(),
-                userDto.getLastLogin(),
-                userDto.getToken(),
-                userDto.isActive()
-        );
+        return RestRegisterUserResponseMapper.fromDto(userDto);
     }
 }

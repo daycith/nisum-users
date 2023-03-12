@@ -8,6 +8,6 @@ public class LadaKeySpecification {
     }
 //
     public boolean isSatisfied(String key){
-        return key.matches(pattern);
+        return key != null && key.matches(pattern);
     }
 }

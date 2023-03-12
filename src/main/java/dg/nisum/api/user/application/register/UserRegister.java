@@ -1,8 +1,8 @@
 package dg.nisum.api.user.application.register;
 
-import dg.nisum.api.shared.domain.events.EventBus;
 import dg.nisum.api.shared.domain.PasswordEncrypter;
 import dg.nisum.api.shared.domain.Service;
+import dg.nisum.api.shared.domain.events.EventBus;
 import dg.nisum.api.user.domain.*;
 import dg.nisum.api.user.domain.errors.UserEmailAlreadyExists;
 

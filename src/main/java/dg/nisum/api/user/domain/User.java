@@ -65,6 +65,11 @@ public class User extends AggregateRoot {
             UserPassword password,
             List<UserPhone> phones
     ) {
+
+        if(phones == null || phones.isEmpty()){
+            throw new IllegalArgumentException("required phones");
+        }
+
         CreatedDate createdDate = CreatedDate.current();
         UpdatedDate updatedDate = new UpdatedDate(createdDate.value());
         User user = new User(

@@ -1,8 +1,8 @@
 package dg.nisum.api.shared.infrastructure.bus;
 
+import dg.nisum.api.shared.domain.Service;
 import dg.nisum.api.shared.domain.events.DomainEvent;
 import dg.nisum.api.shared.domain.events.EventBus;
-import dg.nisum.api.shared.domain.Service;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.List;
