@@ -30,7 +30,7 @@ La aplicación se puede ejecutar mediante una de las siguientes opciones:
 
 2. Luego de ejcutada la aplicación, ingresar a la url:
 
-`http://localhost:8080/swagger-ui`
+`http://localhost:8080/swagger-ui/index.html`
 
 Esto le permitirá realizar las pruebas desde la misma documentación de la API, o ver el endpoint que puede llamar
 desde su cliente preferido.
