@@ -12,6 +12,6 @@ public class UserIsActive {
     }
 
     static UserIsActive initialValue() {
-        return new UserIsActive(false);
+        return new UserIsActive(true);
     }
 }
