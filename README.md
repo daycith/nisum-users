@@ -65,7 +65,7 @@ desde su cliente preferido.
 
 Se implementaron pruebas unitarias, de integración, y aceptación.
 
-Para ejecutar todas las pruebas, primero asegurese de copiar las variables de entorno ejecutando `export $(cat .env | xargs)`
+Para ejecutar todas las pruebas, primero asegurese de copiar las variables de entorno ejecutando `export $(cat .env | xargs)`, luego ejecutar el comando:
 
 ```sh
 ./gradlew clean test
@@ -104,11 +104,11 @@ Para dar solución al desafío, se optó por seguir los principios de arquitectu
 
 
 - User Authenticator: Este servicio se ejecuta una vez se produce el evento de Usuario registrado. Se encarga de generar
-  el token de usuario y persistirlo junto con el usuario. En este momento también se establece la última fecha de login,
+  el token y persistirlo junto con la información del usuario. En este momento también se establece la última fecha de login,
   basado en la fecha de creación del usuario.
 
 
-- User Finder: Simplemente devuelve toda la información que retorna el endpoint de registro de usuario.
+- User Finder: Simplemente devuelve toda la información que debe retornar el endpoint de registro de usuario.
 
 
 ![packages](https://drive.google.com/uc?export=view&id=1E20AEB1PWja7_Pg409lIp6gWYTHF1fL6)
@@ -116,9 +116,8 @@ Para dar solución al desafío, se optó por seguir los principios de arquitectu
 
 Como se evidencia en la imagen, es en el controlador donde se lanza la acción de registrar el usuario y se espera que el proceso termine para volver a consultar los datos del usuario.
 
-
 De este modo se puede retornar la información en la misma petición http, se aplica el principio de responsabilidad
-única, y por ende se facilitan las pruebas.
+única, y se facilitan las pruebas.
 
 
 A continuación el diagrama de paquetes, que evidencia la solución planteada en el código de la aplicación:
