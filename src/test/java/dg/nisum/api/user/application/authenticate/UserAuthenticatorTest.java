@@ -1,6 +1,7 @@
 package dg.nisum.api.user.application.authenticate;
 
 import dg.nisum.api.shared.domain.ForbiddenError;
+import dg.nisum.api.shared.domain.PasswordComparator;
 import dg.nisum.api.shared.domain.PasswordEncrypter;
 import dg.nisum.api.shared.infrastructure.security.JwtPasswordEncrypter;
 import dg.nisum.api.user.domain.*;
@@ -15,17 +16,16 @@ import static org.mockito.Mockito.*;
 class UserAuthenticatorTest {
 
     private UserRepository repository;
-
     private UserAuthenticator authenticator;
-    private PasswordEncrypter passwordEncrypter;
+    private PasswordComparator passwordComparator;
 
     private TokenProvider tokenProvider;
     @BeforeEach
     void setUp() {
         repository = mock(UserRepository.class);
-        passwordEncrypter = new JwtPasswordEncrypter();
+        passwordComparator = mock(PasswordComparator.class);
         tokenProvider = mock(TokenProvider.class);
-        authenticator = new UserAuthenticator(repository, passwordEncrypter,tokenProvider);
+        authenticator = new UserAuthenticator(repository, passwordComparator,tokenProvider);
 
     }
 
@@ -37,7 +37,7 @@ class UserAuthenticatorTest {
 
         when(repository.findByEmail(email)).thenReturn(Optional.empty());
 
-        ForbiddenError exception = assertThrows(ForbiddenError.class, () ->{
+        assertThrows(ForbiddenError.class, () ->{
             authenticator.authenticate(email.value(), password.value());
         });
     }
@@ -50,8 +50,9 @@ class UserAuthenticatorTest {
         User user = UserMother.withEmail(email.value());
 
         when(repository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(passwordComparator.compare(invalidPassword.value(),user.getPassword().value())).thenReturn(false);
 
-        ForbiddenError exception = assertThrows(ForbiddenError.class, () ->{
+        assertThrows(ForbiddenError.class, () ->{
             authenticator.authenticate(email.value(), invalidPassword.value());
         });
     }
@@ -64,12 +65,12 @@ class UserAuthenticatorTest {
         String expectedToken = "1123456789";
 
         when(repository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(passwordComparator.compare(password.value(),user.getPassword().value())).thenReturn(true);
         when(tokenProvider.generate(user)).thenReturn(expectedToken);
 
         authenticator.authenticate(email.value(),password.value());
 
        assertUserIsAuthenticated(user,expectedToken);
-
        verify(repository).save(user);
     }
 

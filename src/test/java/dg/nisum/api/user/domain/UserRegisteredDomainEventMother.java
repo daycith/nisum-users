@@ -12,12 +12,12 @@ public class UserRegisteredDomainEventMother {
         return new UserRegisteredDomainEvent(id,name,email,password);
     }
 
-    public static UserRegisteredDomainEvent fromUser(User user){
+    public static UserRegisteredDomainEvent fromUserAndCleanPassword(User user, String cleanPassword){
         return create(
                 user.getId().value(),
                 user.getName().value(),
                 user.getEmail().value(),
-                user.getPassword().value()
+                cleanPassword
         );
     }
 }

@@ -100,7 +100,7 @@ class UserRegisterTest {
                 .thenReturn(encryptedPassword);
         when(ladaKeyPatternConfiguration.pattern()).thenReturn(pattern);
         User expectedUser = UserMother.fromRequestAndEncryptedPassword(request,encryptedPassword);
-        UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUser(expectedUser);
+        UserRegisteredDomainEvent expectedEvent = UserRegisteredDomainEventMother.fromUserAndCleanPassword(expectedUser, request.getPassword());
 
         userRegister.register(request);
 

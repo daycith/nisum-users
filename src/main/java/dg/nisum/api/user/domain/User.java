@@ -1,6 +1,7 @@
 package dg.nisum.api.user.domain;
 
 import dg.nisum.api.shared.domain.AggregateRoot;
+import dg.nisum.api.shared.domain.PasswordEncrypter;
 import dg.nisum.api.user.domain.events.UserRegisteredDomainEvent;
 
 import java.util.List;
@@ -43,6 +44,28 @@ public class User extends AggregateRoot {
         this.updatedDate = updatedDate;
     }
 
+    private User(
+            UserId id,
+            UserName name,
+            UserEmail email,
+            UserPassword password,
+            List<UserPhone> phones,
+            CreatedDate createdDate,
+            UserIsActive isActive,
+            UpdatedDate updatedDate
+    ) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phones = phones;
+        this.createdDate = createdDate;
+        this.token = token;
+        this.lastLoginDate = lastLoginDate;
+        this.isActive = isActive;
+        this.updatedDate = updatedDate;
+    }
+
     public void authenticate(UserToken token) {
 
         if (this.hasNeverAuthenticated()) {
@@ -62,7 +85,8 @@ public class User extends AggregateRoot {
             UserId id,
             UserName name,
             UserEmail email,
-            UserPassword password,
+            String plainPassword,
+            PasswordEncrypter passwordEncrypter,
             List<UserPhone> phones
     ) {
 
@@ -70,8 +94,11 @@ public class User extends AggregateRoot {
             throw new IllegalArgumentException("required phones");
         }
 
+        UserPassword password = new UserPassword(passwordEncrypter.encrypt(plainPassword));
+
         CreatedDate createdDate = CreatedDate.current();
         UpdatedDate updatedDate = new UpdatedDate(createdDate.value());
+
         User user = new User(
                 id,
                 name,
@@ -79,8 +106,6 @@ public class User extends AggregateRoot {
                 password,
                 phones,
                 createdDate,
-                null,
-                null,
                 UserIsActive.initialValue(),
                 updatedDate
         );
@@ -89,7 +114,7 @@ public class User extends AggregateRoot {
                 user.getId().value(),
                 user.getName().value(),
                 user.getEmail().value(),
-                user.getPassword().value()
+                plainPassword
         );
 
         user.record(userRegisteredDomainEvent);

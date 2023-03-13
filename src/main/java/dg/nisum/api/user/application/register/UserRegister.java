@@ -52,7 +52,7 @@ public class UserRegister {
 
         List<UserPhone> phones = makePhones(request.getPhones());
 
-        return User.create(id, name, email, password, phones);
+        return User.create(id, name, email, request.getPassword(), passwordEncrypter, phones);
 
     }
 

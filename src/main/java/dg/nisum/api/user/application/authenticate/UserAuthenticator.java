@@ -1,6 +1,7 @@
 package dg.nisum.api.user.application.authenticate;
 
 import dg.nisum.api.shared.domain.ForbiddenError;
+import dg.nisum.api.shared.domain.PasswordComparator;
 import dg.nisum.api.shared.domain.PasswordEncrypter;
 import dg.nisum.api.shared.domain.Service;
 import dg.nisum.api.user.domain.*;
@@ -9,23 +10,20 @@ import dg.nisum.api.user.domain.*;
 public class UserAuthenticator {
 
     private final UserRepository repository;
-    private final PasswordEncrypter passwordEncrypter;
+    private final PasswordComparator passwordComparator;
     private final TokenProvider tokenProvider;
-    public UserAuthenticator(UserRepository repository, PasswordEncrypter passwordEncrypter, TokenProvider tokenProvider) {
+
+    public UserAuthenticator(UserRepository repository, PasswordComparator passwordComparator, TokenProvider tokenProvider) {
         this.repository = repository;
-        this.passwordEncrypter = passwordEncrypter;
-        this.tokenProvider  = tokenProvider;
+        this.passwordComparator = passwordComparator;
+        this.tokenProvider = tokenProvider;
     }
 
-    void authenticate(String email, String cleanPassword){
+    void authenticate(String email, String cleanPassword) {
 
         User user = repository.findByEmail(new UserEmail(email)).orElseThrow(() -> new ForbiddenError());
 
-        String encryptedPassword = passwordEncrypter.encrypt(cleanPassword);
-
-        if(!this.comparePasswords(user.getPassword().value(),encryptedPassword)){
-            throw  new ForbiddenError();
-        }
+        this.comparePasswords(cleanPassword, user.getPassword().value());
 
         String token = tokenProvider.generate(user);
 
@@ -35,7 +33,9 @@ public class UserAuthenticator {
 
     }
 
-    private boolean comparePasswords(String userPassword, String providedPassword){
-        return userPassword.equals(providedPassword);
+    private void comparePasswords(String cleanPassword, String userPassword) {
+        if (!passwordComparator.compare(cleanPassword, userPassword)) {
+            throw new ForbiddenError();
+        }
     }
 }
