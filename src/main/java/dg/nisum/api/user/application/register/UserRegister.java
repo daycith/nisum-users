@@ -44,7 +44,7 @@ public class UserRegister {
         }
     }
 
-    private User makeUSer(RegisterUserRequest request){
+    private User makeUSer(RegisterUserRequest request) {
         UserId id = new UserId(request.getId());
         UserName name = new UserName(request.getName());
         UserEmail email = new UserEmail(request.getEmail());
@@ -56,21 +56,23 @@ public class UserRegister {
 
     }
 
-    private List<UserPhone> makePhones(List<PhoneRequest> phones){
-
+    private List<UserPhone> makePhones(List<PhoneRequest> phones) {
         LadaKeySpecification ladaKeySpecification = new LadaKeySpecification(ladaKeyPatternConfiguration.pattern());
-
         return phones.stream().map(phone -> {
-
-            if(!ladaKeySpecification.isSatisfied(phone.getCountryCode())){
-                throw new IllegalArgumentException("invalid lada key");
-            }
-
-            return new UserPhone(
-                    new PhoneNumber(phone.getNumber()),
-                    new PhoneCityCode(phone.getCityCode()),
-                    new PhoneCountryCode(phone.getCountryCode()));
+            return mapPhone(phone, ladaKeySpecification);
         }).collect(Collectors.toList());
+    }
+
+    private UserPhone mapPhone(PhoneRequest phoneRequest, LadaKeySpecification ladaKeySpecification) {
+
+        if (!ladaKeySpecification.isSatisfied(phoneRequest.getCountryCode())) {
+            throw new IllegalArgumentException("invalid lada key");
+        }
+
+        return new UserPhone(
+                new PhoneNumber(phoneRequest.getNumber()),
+                new PhoneCityCode(phoneRequest.getCityCode()),
+                new PhoneCountryCode(phoneRequest.getCountryCode()));
     }
 
 }
