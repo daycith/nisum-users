@@ -29,7 +29,7 @@ public class UserRegister {
 
         this.guardUserEmail(request.getEmail());
 
-        User user = makeUSer(request);
+        User user = userFactory(request);
 
         repository.save(user);
 
@@ -44,7 +44,7 @@ public class UserRegister {
         }
     }
 
-    private User makeUSer(RegisterUserRequest request) {
+    private User userFactory(RegisterUserRequest request) {
         UserId id = new UserId(request.getId());
         UserName name = new UserName(request.getName());
         UserEmail email = new UserEmail(request.getEmail());
