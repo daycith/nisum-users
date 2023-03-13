@@ -44,20 +44,5 @@ class H2UserRepositoryTestIT {
         assertNotNull(savedUser);
     }
 
-//    @Test
-//    void find_an_existing_user_by_email_case_insensitive() {
-//        User user = UserMother.random();
-//
-//        repository.save(user);
-//
-//        UserEmail email = UserEmailMother.create(user.getEmail().value().toUpperCase());
-//
-//        User savedUser = repository.findByEmail(email).orElse(null);
-//
-//        assertNotNull(savedUser);
-//    }
-
-
-
 
 }

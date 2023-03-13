@@ -31,7 +31,7 @@ export $(cat .env | xargs)
 Luego ejecutar la aplicación
 
 ```sh
-./gradlew bootRun
+./gradlew clean bootRun
 ```
 
 
@@ -40,7 +40,8 @@ Luego ejecutar la aplicación
 En este caso las variables de entorno están en el archivo docker-compose, por lo que no es necesario copiar las del archivo .env.
 
 ```sh
-./gradlew bootjar
+./gradlew clean bootjar
+docker-compose build
 docker-compose up -d
 ```
 Para detener el contenedor, simplemente ejecutar
@@ -67,10 +68,10 @@ Se implementaron pruebas unitarias, de integración, y aceptación.
 Para ejecutar todas las pruebas, primero asegurese de copiar las variables de entorno ejecutando `export $(cat .env | xargs)`
 
 ```sh
-./gradlew test
+./gradlew clean test
 ```
 
-para ejecutar sólo las pruebas de aceptación:
+Para ejecutar sólo las pruebas de aceptación y ver el reporte web de cucumber (copiar url generada en consola):
 
 ```sh
 ./gradlew cucumber

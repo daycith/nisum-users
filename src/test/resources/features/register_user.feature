@@ -40,6 +40,25 @@ Feature: Register user
     Then The response status should be 422
     And The response should be "{\"message\":\"El correo ya registrado\"}"
 
+  Scenario: Register a user with an invalid email
+    When I send a POST request to register endpoint with body:
+    """
+    {
+      "name": "Juan Rodriguez",
+      "email": "juan@test.cl",
+      "password": "hunter2",
+      "phones": [
+          {
+              "number": "1234567",
+              "citycode": "1",
+              "contrycode": "57"
+          }
+      ]
+    }
+    """
+    Then The response status should be 422
+    And The response should be "{\"message\":\"invalid email\"}"
+
   Scenario: Register a valid user
     When I send a POST request to register endpoint with body:
     """

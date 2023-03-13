@@ -2,9 +2,11 @@ package dg.nisum.api.user.domain;
 
 import dg.nisum.api.shared.domain.RequiredStringValueObject;
 
+import java.util.regex.Pattern;
+
 public class UserEmail extends RequiredStringValueObject {
 
-    private static final String REGULAR_EXPRESSION =  "^\\w+([-+.']\\w+)*@?(dominio.cl)$";
+    private static final String REGULAR_EXPRESSION =  "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@?(dominio.cl)$";
 
     public UserEmail(String value) {
         super(value);
@@ -13,7 +15,8 @@ public class UserEmail extends RequiredStringValueObject {
     }
 
     private void ensureValidEmail(String value){
-        if(!value.matches(REGULAR_EXPRESSION)){
+        boolean matches = Pattern.compile(REGULAR_EXPRESSION, Pattern.CASE_INSENSITIVE).matcher(value).matches();
+        if(!matches){
             throw new IllegalArgumentException("invalid email");
         }
     }
