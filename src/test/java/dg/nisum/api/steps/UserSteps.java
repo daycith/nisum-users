@@ -2,11 +2,13 @@ package dg.nisum.api.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dg.nisum.api.user.domain.LadaKeyPatternConfiguration;
 import dg.nisum.api.user.domain.UserRepository;
 import dg.nisum.api.user.infrastructure.http.register.RestRegisterUserRequest;
 import dg.nisum.api.user.infrastructure.http.register.RestRegisterUserRequestMother;
 import dg.nisum.api.user.infrastructure.http.register.RestRegisterUserResponse;
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,6 +22,7 @@ public class UserSteps {
 
     private static final String URL_ENDPOINT = "/register";
 
+
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
@@ -27,13 +30,30 @@ public class UserSteps {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private LadaKeyPatternConfiguration ladaKeyPatternConfiguration;
+
     @After
     public void arrange() {
         repository.deleteAll();
+
+        ladaKeyPatternConfiguration.setPattern(System.getenv("LADA_KEY_PATTERN"));
+    }
+
+    @Given("There is a user with the email {string}")
+    public void there_is_a_user_with_the_email(String email) {
+        RestRegisterUserRequest request = RestRegisterUserRequestMother.withEmail(email);
+
+        registerUser(request);
+    }
+
+    @Given("The regular expression for clave lada is {string}")
+    public void the_regular_expression_for_is(String pattern) {
+        ladaKeyPatternConfiguration.setPattern(pattern);
     }
 
     @When("I send a POST request to register endpoint with body:")
-    public void i_send_a_post_request_to_with_body( String body) throws JsonProcessingException {
+    public void i_send_a_post_request_to_with_body(String body) throws JsonProcessingException {
         RestRegisterUserRequest request = new ObjectMapper().readValue(body, RestRegisterUserRequest.class);
         ResponseEntity<String> responseEntity = registerUser(request);
 
@@ -61,27 +81,21 @@ public class UserSteps {
 
         assertNotNull(sentRequest.getPhones());
         assertEquals(sentRequest.getPhones().size(), userResponse.getPhones().size());
-        for(int x = 0; x < sentRequest.getPhones().size(); x++){
+        for (int x = 0; x < sentRequest.getPhones().size(); x++) {
             var sentPhone = sentRequest.getPhones().get(x);
             var responsePhone = userResponse.getPhones().get(x);
 
-            assertEquals(sentPhone.getNumber(),responsePhone.getNumber());
-            assertEquals(sentPhone.getCityCode(),responsePhone.getCityCode());
-            assertEquals(sentPhone.getCountryCode(),responsePhone.getCountryCode());
+            assertEquals(sentPhone.getNumber(), responsePhone.getNumber());
+            assertEquals(sentPhone.getCityCode(), responsePhone.getCityCode());
+            assertEquals(sentPhone.getCountryCode(), responsePhone.getCountryCode());
         }
 
         assertNotNull(userResponse.getToken());
         assertNotNull(userResponse.getCreated());
         assertNotNull(userResponse.getModified());
-        assertEquals(userResponse.getCreated(),userResponse.getLastLogin());
+        assertEquals(userResponse.getCreated(), userResponse.getLastLogin());
     }
 
-    @Given("There is a user with the email {string}")
-    public void there_is_a_user_with_the_email(String email) {
-        RestRegisterUserRequest request = RestRegisterUserRequestMother.withEmail(email);
-
-        registerUser(request);
-    }
 
     @Then("The response should be {string}")
     public void the_response_should_be(String message) {

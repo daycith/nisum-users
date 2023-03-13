@@ -13,4 +13,9 @@ public class PropertiesLadaKeyConfiguration implements LadaKeyPatternConfigurati
     public String pattern() {
         return ladaKeyPattern;
     }
+
+    @Override
+    public void setPattern(String patter) {
+        ladaKeyPattern = patter;
+    }
 }

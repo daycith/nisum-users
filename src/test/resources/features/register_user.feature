@@ -59,6 +59,26 @@ Feature: Register user
     Then The response status should be 422
     And The response should be "{\"message\":\"invalid email\"}"
 
+  Scenario: Register a user with an invalid clave lada
+    Given The regular expression for clave lada is "^[0-9]{5}$"
+    When I send a POST request to register endpoint with body:
+    """
+    {
+      "name": "Juan Rodriguez",
+      "email": "juan@dominio.cl",
+      "password": "hunter2",
+      "phones": [
+          {
+              "number": "1234567",
+              "citycode": "1",
+              "contrycode": "12"
+          }
+      ]
+    }
+    """
+    Then The response status should be 422
+    And The response should be "{\"message\":\"invalid lada key\"}"
+
   Scenario: Register a valid user
     When I send a POST request to register endpoint with body:
     """
